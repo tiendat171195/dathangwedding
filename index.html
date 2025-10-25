@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đám cưới — Tiến Đạt & Minh Hằng</title>
+  <meta name="description" content="Website đám cưới của Tiến Đạt & Minh Hằng — tháng 11/2025" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif+Display:opsz,wght@8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">Đạt & Hằng</div>
+      <nav class="nav">
+        <a href="#events">Sự kiện</a>
+        <a href="#gallery">Bộ ảnh</a>
+        <a href="#wishes">Khách mời</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-short">
+      <div class="hero-slides"><!-- Injected by JS --></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content container">
+        <p class="eyebrow">ĐÁM CƯỚI</p>
+        <h1>Tiến Đạt & Minh Hằng</h1>
+        <p class="subtitle">Hẹn gặp bạn vào tháng 11/2025 – Quảng Ninh • Bình Dương • TP.HCM</p>
+        <div id="countdown" class="countdown"></div>
+      </div>
+    </section>
+
+    <section id="events" class="section">
+      <div class="container">
+        <h2>Lịch & Địa điểm</h2>
+        <p class="muted">Các mốc: Quảng Ninh — 02/11 • Bình Dương — 15/11 • TP.HCM — 23/11</p>
+        <div class="grid grid-3">
+          <div class="card">
+            <div class="card-head">
+              <div class="city">Quảng Ninh</div>
+              <span class="badge">02/11/2025</span>
+            </div>
+            <div class="venue">
+              <div class="venue-name">Khách sạn Thương Mại</div>
+              <div class="venue-addr">Số 49 Quang Trung, phường Uông Bí, tỉnh Quảng Ninh</div>
+            </div>
+            <div class="times-actions">
+              <div class="times">Đón khách: <strong>10:30</strong> • Lễ cưới: <strong>11:00</strong></div>
+              <button class="icon-btn" onclick="toggleCalMenu('0')" aria-haspopup="true" aria-controls="calmenu-0" aria-label="Add to calendar">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                  <line x1="12" y1="14" x2="12" y2="20"></line>
+                  <line x1="9" y1="17" x2="15" y2="17"></line>
+                </svg>
+              </button>
+              <div class="cal-menu" id="calmenu-0">
+                <a href="#" onclick="addCal('Quảng Ninh','2025-11-02','10:30','Đón khách'); return false;">Thêm Reception</a>
+                <a href="#" onclick="addCal('Quảng Ninh','2025-11-02','11:00','Lễ cưới'); return false;">Thêm Lễ cưới</a>
+              </div>
+            </div>
+            <div class="map-link"><a href="https://maps.app.goo.gl/LrUJizs4c9i7Pb6t8" target="_blank" rel="noreferrer">Xem bản đồ</a></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="city">Bình Dương</div>
+              <span class="badge">15/11/2025</span>
+            </div>
+            <div class="venue">
+              <div class="venue-name">Gold Star</div>
+              <div class="venue-addr">37 Hùng Vương, Phú Cường, Thủ Dầu Một, Bình Dương</div>
+            </div>
+            <div class="times-actions">
+              <div class="times">Đón khách: <strong>11:00</strong> • Lễ cưới: <strong>11:30</strong></div>
+              <button class="icon-btn" onclick="toggleCalMenu('1')" aria-haspopup="true" aria-controls="calmenu-1" aria-label="Add to calendar">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                  <line x1="12" y1="14" x2="12" y2="20"></line>
+                  <line x1="9" y1="17" x2="15" y2="17"></line>
+                </svg>
+              </button>
+              <div class="cal-menu" id="calmenu-1">
+                <a href="#" onclick="addCal('Bình Dương','2025-11-15','11:00','Đón khách'); return false;">Thêm Reception</a>
+                <a href="#" onclick="addCal('Bình Dương','2025-11-15','11:30','Lễ cưới'); return false;">Thêm Lễ cưới</a>
+              </div>
+            </div>
+            <div class="map-link"><a href="https://maps.app.goo.gl/nxY4V8vqn6Mhkh1D7" target="_blank" rel="noreferrer">Xem bản đồ</a></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="city">Q7, TP. HCM</div>
+              <span class="badge">23/11/2025</span>
+            </div>
+            <div class="venue">
+              <div class="venue-name">Maison De Charme</div>
+              <div class="venue-addr">793/57/16, 793/55 Trần Xuân Soạn, Tân Hưng, Quận 7, Thành phố Hồ Chí Minh</div>
+            </div>
+            <div class="times-actions">
+              <div class="times">Đón khách: <strong>18:00</strong> • Lễ cưới: <strong>19:00</strong></div>
+              <button class="icon-btn" onclick="toggleCalMenu('2')" aria-haspopup="true" aria-controls="calmenu-2" aria-label="Add to calendar">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                  <line x1="12" y1="14" x2="12" y2="20"></line>
+                  <line x1="9" y1="17" x2="15" y2="17"></line>
+                </svg>
+              </button>
+              <div class="cal-menu" id="calmenu-2">
+                <a href="#" onclick="addCal('Q7, TP. HCM','2025-11-23','18:00','Đón khách'); return false;">Thêm Reception</a>
+                <a href="#" onclick="addCal('Q7, TP. HCM','2025-11-23','19:00','Lễ cưới'); return false;">Thêm Lễ cưới</a>
+              </div>
+            </div>
+            <div class="map-link"><a href="https://maps.app.goo.gl/etLv1jbSBPjMhb9j6" target="_blank" rel="noreferrer">Xem bản đồ</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="section">
+      <div class="container section-head">
+        <div>
+          <h2>Bộ ảnh</h2>
+        </div>
+      </div>
+      <div class="container">
+        <div class="masonry" id="masonry"><!-- injected --></div>
+      </div>
+    </section>
+
+    <section id="wishes" class="section">
+      <div class="container">
+        <h2>Khách mời &amp; Lời chúc</h2>
+        <div class="grid grid-2">
+          <form id="wish-form" class="card form">
+            <label>Tên</label>
+            <input id="wish-name" placeholder="Tên của bạn" />
+            <label>Tham dự</label>
+            <select id="wish-status">
+              <option value="Tham dự">Tham dự</option>
+              <option value="Không tham dự">Không tham dự</option>
+              <option value="Chưa rõ" selected>Chưa rõ</option>
+            </select>
+            <label>Lời chúc</label>
+            <textarea id="wish-message" rows="4" placeholder="Gửi lời chúc đến cặp đôi…"></textarea>
+            <button type="submit" class="btn btn-primary">Gửi</button>
+          </form>
+          <div class="card wishes">
+            <div class="wishes-head">
+              <h3>Danh sách khách mời</h3>
+              <div class="actions-inline">
+                <select id="filter-status" class="filter">
+                  <option value="Tất cả">Tất cả</option>
+                  <option value="Tham dự">Tham dự</option>
+                  <option value="Không tham dự">Không tham dự</option>
+                  <option value="Chưa rõ">Chưa rõ</option>
+                </select>
+                <button class="btn" id="btn-export">Xuất CSV</button>
+                <button class="link" id="btn-clear">Xoá tất cả</button>
+              </div>
+            </div>
+            <div class="stats tiny muted" id="stats"></div>
+            <div id="wish-list" class="wish-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container center tiny muted">
+      © 2025 Tiến Đạt & Minh Hằng
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="countdown.js"></script>
+</body>
+</html>

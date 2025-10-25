@@ -1,0 +1,133 @@
+
+:root{ --bg:#ffffff; --text:#0a0a0a; --muted:#6b7280; --card:#ffffff; --border:#e5e7eb; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"Be Vietnam Pro",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
+.container{max-width:1080px;margin:0 auto;padding:0 16px}
+.section{padding:64px 0}
+.section h2{font-size:28px;margin:0 0 8px}
+.muted{color:var(--muted)}
+.center{text-align:center}
+.tiny{font-size:12px}
+.site-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.85);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--border)}
+.header-inner{height:56px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:600;letter-spacing:.2px}
+.nav a{margin-left:16px;color:inherit;text-decoration:none}
+.nav a:hover{text-decoration:underline}
+
+/* HERO — SHORT (landscape), ~68vh */
+.hero.hero-short{position:relative;height:68vh;min-height:420px;overflow:hidden;background:#fff}
+.hero-slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover; object-position:50% 50%;
+  opacity:0; transition:opacity .7s ease}
+.slide.active{opacity:1}
+
+/* subtle light veil */
+.hero-overlay{position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to top, rgba(255,255,255,0.18), rgba(255,255,255,0.06) 30%, rgba(255,255,255,0) 60%);
+}
+
+.hero-content{position:relative;z-index:2;color:#111;height:100%;display:flex;flex-direction:column;justify-content:end;padding-bottom:12px}
+.eyebrow{text-transform:uppercase;letter-spacing:.3em;font-size:12px;opacity:.85;margin:0;color:#6b7280}
+.hero h1{font-size:42px;margin:6px 0 2px}
+.subtitle{opacity:.88;margin:2px 0 12px}
+
+/* Countdown */
+.countdown{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:16px;padding:14px}
+.count-prefix{font-size:14px;margin-bottom:6px}
+.count-tiles{display:flex;gap:10px;flex-wrap:wrap}
+.tile{display:flex;flex-direction:column;align-items:center;padding:0 8px}
+.tile .n{font-size:32px;font-weight:600;letter-spacing:.5px}
+.tile .l{font-size:12px;color:var(--muted);margin-top:2px}
+.badge{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:12px}
+.badge.yes{background:#ecfdf5;border-color:#a7f3d0}
+.badge.no{background:#fef2f2;border-color:#fecaca}
+.badge.maybe{background:#eff6ff;border-color:#bfdbfe}
+
+/* Layout */
+.grid{display:grid;gap:16px}
+.grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
+.grid-2{grid-template-columns:repeat(1,minmax(0,1fr))}
+@media(min-width:720px){ .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))} .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.city{font-weight:600}
+.venue-name{font-weight:500}
+.times-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;flex-wrap:wrap}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
+.icon-btn:hover{box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.cal-menu{position:relative;display:none}
+.cal-menu.open{display:block;position:absolute;margin-top:44px;right:16px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden;z-index:40}
+.cal-menu a{display:block;padding:10px 12px;color:inherit;text-decoration:none;white-space:nowrap;min-width:180px}
+.cal-menu a:hover{background:#f3f4f6}
+.map-link{margin-top:10px}
+.map-link a{color:inherit}
+
+/* Masonry gallery */
+.section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:16px}
+.masonry{column-count:1; column-gap:16px}
+@media(min-width:720px){ .masonry{column-count:2} }
+@media(min-width:1024px){ .masonry{column-count:3} }
+@media(min-width:1280px){ .masonry{column-count:4} }
+.masonry-item{break-inside:avoid; -webkit-column-break-inside:avoid; margin-bottom:16px}
+.masonry-item img{width:100%; height:auto; display:block; border-radius:16px}
+
+/* Wishes + RSVP */
+.form{display:flex;flex-direction:column;gap:10px}
+.form label{font-size:14px}
+.form input,.form textarea,.form select{width:100%;border:1px solid var(--border);border-radius:12px;padding:10px 12px;font:inherit;background:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.btn-primary{height:44px;width:100%;font-weight:600}
+.btn:hover{box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.actions-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter{border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:#fff}
+.wishes{display:flex;flex-direction:column}
+.wishes-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.wish-list{max-height:420px;overflow:auto;padding-right:8px}
+.wish{border-bottom:1px solid var(--border);padding:10px 0}
+.wish:last-child{border-bottom:none}
+.wish .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wish .name{font-weight:600}
+.wish .msg{margin-top:6px}
+.wish .ts{font-size:12px;color:#6b7280;margin-top:6px}
+.site-footer{border-top:1px solid var(--border);padding:24px 0;margin-top:24px}
+
+/* Mobile hero tweaks */
+@media (max-width:640px){
+  .hero.hero-short{ height:56vh; min-height:360px; }
+  .hero h1{ font-size:36px; }
+}
+
+/* === Hero font patch === */
+.hero h1{
+  font-family:"Noto Serif Display", Georgia, Cambria, "Times New Roman", serif;
+  font-weight:600;
+  letter-spacing:0.2px;
+  line-height:1.08;
+}
+.eyebrow{
+  font-family:"Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight:600;
+  letter-spacing:.28em;
+}
+.subtitle{
+  font-family:"Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight:500;
+}
+
+
+/* === merged hero contrast patch === */
+
+/* === Hero Contrast Patch === */
+/* Default (on-light) keeps current look */
+.hero-content{ color:#111; }
+/* When background behind text is dark, flip to white and strengthen contrast */
+.hero-content.on-dark{ color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35), 0 6px 18px rgba(0,0,0,.35); }
+.hero-content.on-dark .eyebrow{ color:rgba(255,255,255,.9); }
+.hero-content.on-dark .subtitle{ opacity:.95; }
+/* Countdown panel adapts */
+.hero-content .countdown{ background:rgba(255,255,255,.88); border-color:rgba(0,0,0,.08); }
+.hero-content.on-dark .countdown{ background:rgba(0,0,0,.30); border-color:rgba(255,255,255,.28); color:#fff; }
+.hero-content.on-dark .countdown .l{ color:rgba(255,255,255,.8); }
+.hero-content.on-dark .badge{ background:rgba(255,255,255,.22); border-color:rgba(255,255,255,.36); color:#fff; }
