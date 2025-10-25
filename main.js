@@ -86,26 +86,51 @@ document.addEventListener('click', (e)=>{
   if (!isBtn && !isMenu) document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
 });
 
-// RSVP + Wishes
-const KEY='wishes_v2';
-function load(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } }
-function save(list){ localStorage.setItem(KEY, JSON.stringify(list)); }
-function counts(list){
-  const total = list.length;
-  const by = {"Tham dự":0,"Không tham dự":0,"Chưa rõ":0};
-  list.forEach(x => by[x.status] = (by[x.status]||0) + 1);
-  return {total, by};
+
+// === Supabase-backed RSVP & Wishes ===
+
+// Requires env.js and @supabase/supabase-js
+if (!window.SUPABASE_URL || !window.SUPABASE_ANON || !window.supabase) {
+  console.warn("Supabase env not found. Please include env.js and supabase-js@2.");
 }
-function render(){
-  const filter = document.getElementById('filter-status').value;
-  let list = load();
-  const c = counts(list);
-  document.getElementById('stats').textContent =
-    `Tổng: ${c.total} • Tham dự: ${c.by["Tham dự"]} • Không tham dự: ${c.by["Không tham dự"]} • Chưa rõ: ${c.by["Chưa rõ"]}`;
-  if (filter !== 'Tất cả'){ list = list.filter(x => x.status === filter); }
+
+const supabase = window.supabase ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON) : null;
+
+async function loadAll() {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('wishes')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) { console.error(error); return []; }
+  return data.map(r => ({
+    name: r.name || 'Ẩn danh',
+    status: r.status || 'Chưa rõ',
+    message: r.message || '',
+    ts: r.created_at
+  }));
+}
+
+async function insertWish({name, status, message}) {
+  if (!supabase) return;
+  const { error } = await supabase.from('wishes').insert([{ name, status, message }]);
+  if (error) { console.error(error); alert('Gửi thất bại, thử lại giúp mình nhé!'); }
+}
+
+async function render(){
+  const filterEl = document.getElementById('filter-status');
   const wrap = document.getElementById('wish-list');
-  if (!list.length){ wrap.innerHTML = '<div class="muted">Chưa có dữ liệu.</div>'; return; }
-  wrap.innerHTML = list.map(w => `
+  const statsEl = document.getElementById('stats');
+  if (!wrap || !statsEl || !filterEl) return;
+
+  const filter = filterEl.value;
+  let list = await loadAll();
+  const counts = {"Tham dự":0,"Không tham dự":0,"Chưa rõ":0};
+  list.forEach(x => counts[x.status] = (counts[x.status]||0) + 1);
+  statsEl.textContent = `Tổng: ${list.length} • Tham dự: ${counts["Tham dự"]||0} • Không tham dự: ${counts["Không tham dự"]||0} • Chưa rõ: ${counts["Chưa rõ"]||0}`;
+
+  if (filter !== 'Tất cả'){ list = list.filter(x => x.status === filter); }
+  wrap.innerHTML = list.length ? list.map(w => `
     <div class="wish">
       <div class="row">
         <div class="name">${w.name}</div>
@@ -114,93 +139,47 @@ function render(){
       ${w.message ? `<div class="msg">${w.message}</div>` : ''}
       <div class="ts">${new Date(w.ts).toLocaleString('vi-VN')}</div>
     </div>
-  `).join('');
+  `).join('') : '<div class="muted">Chưa có dữ liệu.</div>';
 }
-document.getElementById('wish-form').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const name = document.getElementById('wish-name').value.trim() || 'Ẩn danh';
-  const status = document.getElementById('wish-status').value;
-  const message = document.getElementById('wish-message').value.trim();
-  if (!status) return;
-  const list = load();
-  list.unshift({name, status, message, ts: Date.now()});
-  save(list.slice(0, 2000));
-  e.target.reset();
+
+function hookForm(){
+  const form = document.getElementById('wish-form');
+  const filter = document.getElementById('filter-status');
+  const btnExport = document.getElementById('btn-export');
+  const btnClear = document.getElementById('btn-clear');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('wish-name').value.trim() || 'Ẩn danh';
+    const status = document.getElementById('wish-status').value;
+    const message = document.getElementById('wish-message').value.trim();
+    await insertWish({name, status, message});
+    e.target.reset();
+    render();
+  });
+
+  if (filter) filter.addEventListener('change', render);
+
+  if (btnExport) btnExport.addEventListener('click', async (e)=>{
+    e.preventDefault();
+    const list = await loadAll();
+    const header = ['ten','trang_thai','loi_chuc','timestamp'];
+    const rows = list.map(w => [w.name, w.status, (w.message||'').replace(/\\n/g,' ').replace(/"/g,'""'), w.ts]);
+    const csv = [header.join(','), ...rows.map(r => r.map(x => `"${x}"`).join(','))].join('\\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'khach-moi.csv'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  if (btnClear) btnClear.addEventListener('click', (e)=>{
+    e.preventDefault();
+    alert('Danh sách đang lưu trên server — không xoá tại đây để tránh mất dữ liệu.');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  hookForm();
   render();
 });
-document.getElementById('filter-status').addEventListener('change', render);
-document.getElementById('btn-export').addEventListener('click', (e)=>{ e.preventDefault(); 
-  const list = load();
-  const header = ['ten','trang_thai','loi_chuc','timestamp'];
-  const rows = list.map(w => [w.name, w.status, (w.message||'').replace(/\n/g,' ').replace(/"/g,'""'), new Date(w.ts).toISOString()]);
-  const csv = [header.join(','), ...rows.map(r => r.map(x => `"${x}"`).join(','))].join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'khach-moi.csv'; a.click();
-  URL.revokeObjectURL(url);
-});
-document.getElementById('btn-clear').addEventListener('click', (e)=>{ e.preventDefault();
-  if(confirm('Xoá toàn bộ danh sách?')){ localStorage.removeItem(KEY); render(); }
-});
-render();
-
-
-/* === merged hero contrast patch === */
-
-/* === Hero Contrast Patch JS ===
-   Measures brightness in the lower third (where hero-content sits),
-   toggles .on-dark on .hero-content for better legibility.
-*/
-(function(){
-  const content = document.querySelector('.hero-content');
-  const slides = document.querySelectorAll('.slide');
-  if(!content || !slides.length) return;
-
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  function luminance(r,g,b){ // simple relative luminance approximation
-    return 0.2126*r + 0.7152*g + 0.0722*b;
-  }
-
-  function analyze(img){
-    // Sample a strip at the bottom 35% of the image (where text block is)
-    const w = canvas.width = 160;  // small downscale for speed
-    const h = canvas.height = 90;
-    try {
-      ctx.drawImage(img, 0, 0, w, h);
-    } catch(e){
-      content.classList.remove('on-dark');
-      return;
-    }
-    const data = ctx.getImageData(0, Math.floor(h*0.55), w, Math.floor(h*0.45)).data;
-    let sum = 0, count = 0;
-    for(let i=0;i<data.length;i+=4){
-      const r=data[i], g=data[i+1], b=data[i+2];
-      sum += luminance(r,g,b);
-      count++;
-    }
-    const avg = sum / count; // 0..255
-    if(avg < 120){
-      content.classList.add('on-dark');
-    }else{
-      content.classList.remove('on-dark');
-    }
-  }
-
-  function analyzeActive(){
-    const active = document.querySelector('.slide.active');
-    if(!active) return;
-    if(active.complete){
-      analyze(active);
-    }else{
-      active.onload = ()=>analyze(active);
-    }
-  }
-
-  // Hook into existing slideshow if present
-  analyzeActive();
-  // Re-check when slide changes (observes class changes)
-  const obs = new MutationObserver(analyzeActive);
-  slides.forEach(sl=>obs.observe(sl, { attributes:true, attributeFilter:['class'] }));
-})();
