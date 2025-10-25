@@ -37,7 +37,7 @@
     <section id="events" class="section">
       <div class="container">
         <h2>Lịch & Địa điểm</h2>
-        <p class="muted">Các mốc: Quảng Ninh — 02/11 • Bình Dương — 15/11 • TP.HCM — 23/11</p>
+        <p class="muted">Quảng Ninh — 02/11 • Bình Dương — 15/11 • TP.HCM — 23/11</p>
         <div class="grid grid-3">
           <div class="card">
             <div class="card-head">
@@ -139,42 +139,48 @@
     </section>
 
     <section id="wishes" class="section">
-      <div class="container">
+  <div class="container">
+    <div class="section-head">
+      <div>
         <h2>Khách mời &amp; Lời chúc</h2>
-        <div class="grid grid-2">
-          <form id="wish-form" class="card form">
-            <label>Tên</label>
-            <input id="wish-name" placeholder="Tên của bạn" />
-            <label>Tham dự</label>
-            <select id="wish-status">
-              <option value="Tham dự">Tham dự</option>
-              <option value="Không tham dự">Không tham dự</option>
-              <option value="Chưa rõ" selected>Chưa rõ</option>
-            </select>
-            <label>Lời chúc</label>
-            <textarea id="wish-message" rows="4" placeholder="Gửi lời chúc đến cặp đôi…"></textarea>
-            <button type="submit" class="btn btn-primary">Gửi</button>
-          </form>
-          <div class="card wishes">
-            <div class="wishes-head">
-              <h3>Danh sách khách mời</h3>
-              <div class="actions-inline">
-                <select id="filter-status" class="filter">
-                  <option value="Tất cả">Tất cả</option>
-                  <option value="Tham dự">Tham dự</option>
-                  <option value="Không tham dự">Không tham dự</option>
-                  <option value="Chưa rõ">Chưa rõ</option>
-                </select>
-                <button class="btn" id="btn-export">Xuất CSV</button>
-                <button class="link" id="btn-clear">Xoá tất cả</button>
-              </div>
-            </div>
-            <div class="stats tiny muted" id="stats"></div>
-            <div id="wish-list" class="wish-list"></div>
-          </div>
-        </div>
+        <p class="muted">Gửi đôi lời dễ thương đến Đạt &amp; Hằng 💌</p>
       </div>
-    </section>
+    </div>
+
+    <div class="grid grid-2">
+      <form id="wish-form" class="card form form-elev">
+        <label>Tên</label>
+        <input id="wish-name" placeholder="Tên của bạn" />
+        <label>Tham dự</label>
+        <select id="wish-status">
+          <option value="Tham dự">Tham dự</option>
+          <option value="Không tham dự">Không tham dự</option>
+          <option value="Chưa rõ" selected>Chưa rõ</option>
+        </select>
+        <label>Lời chúc</label>
+        <textarea id="wish-message" rows="4" placeholder="Gửi lời chúc đến cặp đôi…"></textarea>
+        <button type="submit" class="btn btn-primary">Gửi lời chúc 💖</button>
+      </form>
+
+      <div class="card wishes">
+        <div class="wishes-head">
+          <h3>Lời chúc mới nhất</h3>
+          <select id="filter-status" class="filter">
+            <option value="Tất cả">Tất cả</option>
+            <option value="Tham dự">Tham dự</option>
+            <option value="Không tham dự">Không tham dự</option>
+            <option value="Chưa rõ">Chưa rõ</option>
+          </select>
+        </div>
+        <div class="stats tiny muted" id="stats"></div>
+        <div id="wish-list" class="wish-list pretty"></div>
+      </div>
+    </div>
+
+    <!-- Lightweight confetti canvas for submit -->
+    <canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
+  </div>
+</section>
   </main>
 
   <footer class="site-footer">

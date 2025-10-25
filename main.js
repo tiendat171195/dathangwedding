@@ -87,28 +87,21 @@ document.addEventListener('click', (e)=>{
 });
 
 
-// === Supabase-backed RSVP & Wishes ===
 
-// Requires env.js and @supabase/supabase-js
-if (!window.SUPABASE_URL || !window.SUPABASE_ANON || !window.supabase) {
-  console.warn("Supabase env not found. Please include env.js and supabase-js@2.");
-}
+// === Supabase client (expects env.js + supabase-js@2 already included) ===
+const supabase = (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON)
+  ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON)
+  : null;
 
-const supabase = window.supabase ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON) : null;
-
-async function loadAll() {
+// ===== WISHES =====
+async function loadWishes() {
   if (!supabase) return [];
   const { data, error } = await supabase
     .from('wishes')
     .select('*')
     .order('created_at', { ascending: false });
   if (error) { console.error(error); return []; }
-  return data.map(r => ({
-    name: r.name || 'Ẩn danh',
-    status: r.status || 'Chưa rõ',
-    message: r.message || '',
-    ts: r.created_at
-  }));
+  return data.map(r => ({ name: r.name || 'Ẩn danh', status: r.status || 'Chưa rõ', message: r.message || '', ts: r.created_at }));
 }
 
 async function insertWish({name, status, message}) {
@@ -117,67 +110,82 @@ async function insertWish({name, status, message}) {
   if (error) { console.error(error); alert('Gửi thất bại, thử lại giúp mình nhé!'); }
 }
 
-async function render(){
-  const filterEl = document.getElementById('filter-status');
-  const wrap = document.getElementById('wish-list');
-  const statsEl = document.getElementById('stats');
-  if (!wrap || !statsEl || !filterEl) return;
+// Confetti (light)
+function confettiBurst(){
+  const cvs = document.getElementById('confetti');
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  const w = cvs.width = window.innerWidth;
+  const h = cvs.height = window.innerHeight;
+  const N = 80, parts = [];
+  for(let i=0;i<N;i++){
+    parts.push({
+      x: Math.random()*w, y: h + Math.random()*40,
+      vx: (Math.random()-0.5)*1.6, vy: - (2 + Math.random()*3),
+      sz: 2 + Math.random()*4, rot: Math.random()*Math.PI, vr: (Math.random()-0.5)*0.2,
+      a: 1.0, hue: Math.floor(Math.random()*360)
+    });
+  }
+  let t=0, raf;
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    t+=1;
+    for(const p of parts){
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.03; // gravity
+      p.rot += p.vr;
+      ctx.globalAlpha = Math.max(0, p.a*(1 - t/120));
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = `hsl(${p.hue}, 70%, 55%)`;
+      ctx.fillRect(-p.sz/2, -p.sz/2, p.sz, p.sz);
+      ctx.restore();
+    }
+    if (t < 120) raf = requestAnimationFrame(step);
+    else { ctx.clearRect(0,0,w,h); cancelAnimationFrame(raf); }
+  }
+  step();
+}
 
-  const filter = filterEl.value;
-  let list = await loadAll();
+async function renderWishes(){
+  const filter = document.getElementById('filter-status').value;
+  let list = await loadWishes();
   const counts = {"Tham dự":0,"Không tham dự":0,"Chưa rõ":0};
   list.forEach(x => counts[x.status] = (counts[x.status]||0) + 1);
-  statsEl.textContent = `Tổng: ${list.length} • Tham dự: ${counts["Tham dự"]||0} • Không tham dự: ${counts["Không tham dự"]||0} • Chưa rõ: ${counts["Chưa rõ"]||0}`;
-
+  document.getElementById('stats').textContent =
+    `Tổng: ${list.length} • Tham dự: ${counts["Tham dự"]||0} • Không tham dự: ${counts["Không tham dự"]||0} • Chưa rõ: ${counts["Chưa rõ"]||0}`;
   if (filter !== 'Tất cả'){ list = list.filter(x => x.status === filter); }
+
+  const wrap = document.getElementById('wish-list');
   wrap.innerHTML = list.length ? list.map(w => `
     <div class="wish">
       <div class="row">
         <div class="name">${w.name}</div>
         <span class="badge ${w.status === 'Tham dự' ? 'yes' : (w.status === 'Không tham dự' ? 'no' : 'maybe')}">${w.status}</span>
       </div>
-      ${w.message ? `<div class="msg">${w.message}</div>` : ''}
+      ${w.message ? `<div class="msg">${w.message.replace(/</g,'&lt;') }</div>` : ''}
       <div class="ts">${new Date(w.ts).toLocaleString('vi-VN')}</div>
     </div>
   `).join('') : '<div class="muted">Chưa có dữ liệu.</div>';
 }
 
-function hookForm(){
-  const form = document.getElementById('wish-form');
-  const filter = document.getElementById('filter-status');
-  const btnExport = document.getElementById('btn-export');
-  const btnClear = document.getElementById('btn-clear');
-  if (!form) return;
+document.getElementById('wish-form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('wish-name').value.trim() || 'Ẩn danh';
+  const status = document.getElementById('wish-status').value;
+  const message = document.getElementById('wish-message').value.trim();
+  await insertWish({name, status, message});
+  e.target.reset();
+  confettiBurst();
+  renderWishes();
+});
+document.getElementById('filter-status').addEventListener('change', renderWishes);
 
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const name = document.getElementById('wish-name').value.trim() || 'Ẩn danh';
-    const status = document.getElementById('wish-status').value;
-    const message = document.getElementById('wish-message').value.trim();
-    await insertWish({name, status, message});
-    e.target.reset();
-    render();
-  });
+// Initial render
+renderWishes();
 
-  if (filter) filter.addEventListener('change', render);
-
-  if (btnExport) btnExport.addEventListener('click', async (e)=>{
-    e.preventDefault();
-    const list = await loadAll();
-    const header = ['ten','trang_thai','loi_chuc','timestamp'];
-    const rows = list.map(w => [w.name, w.status, (w.message||'').replace(/\\n/g,' ').replace(/"/g,'""'), w.ts]);
-    const csv = [header.join(','), ...rows.map(r => r.map(x => `"${x}"`).join(','))].join('\\n');
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'khach-moi.csv'; a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  if (btnClear) btnClear.addEventListener('click', (e)=>{
-    e.preventDefault();
-    alert('Danh sách đang lưu trên server — không xoá tại đây để tránh mất dữ liệu.');
-  });
-}
 
 document.addEventListener('DOMContentLoaded', ()=>{
   hookForm();
