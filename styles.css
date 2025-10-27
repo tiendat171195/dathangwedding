@@ -294,3 +294,6 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
     -webkit-text-stroke: .6px rgba(0,0,0,.28);
   }
 }
+.req{ color:#e11d48; font-weight:700; }
+.field-error{ color:#e11d48; font-size:12px; margin-top:6px; display:block; }
+.input-invalid{ border-color:#e11d48 !important; box-shadow:0 0 0 3px rgba(225,29,72,.08) }

@@ -165,8 +165,16 @@
 
     <div class="grid grid-2">
       <form id="wish-form" class="card form form-elev">
-        <label>Tên</label>
-        <input id="wish-name" placeholder="Tên của bạn" />
+        <label>Tên <span class="req">*</span>
+        </label>
+<input id="wish-name"
+       name="name"
+       placeholder="Tên của bạn"
+       required
+       minlength="1"
+       autocomplete="name"
+       inputmode="text" />
+
         <label>Tham dự</label>
         <select id="wish-status">
           <option value="Tham dự" selected>Tham dự</option>
