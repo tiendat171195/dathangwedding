@@ -180,3 +180,117 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 @media (max-width: 360px){
   .btn-primary{ font-size:15px; gap:6px; }
 }
+
+/* === Hero text emphasis (no overlay) === */
+.hero-content{ color:#111; }
+
+/* Tiêu đề & dòng phụ */
+.hero-content .eyebrow{ font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+.hero-content h1{ font-weight:600; line-height:1.1; }
+.hero-content .subtitle{ opacity:.92; }
+
+/* Halo cho chữ: KHÔNG làm mờ ảnh, chỉ tạo viền sáng/tối quanh chữ */
+.hero-content h1,
+.hero-content .eyebrow,
+.hero-content .subtitle{
+  /* halo mặc định (nền sáng): viền sáng rất nhẹ + bóng mềm */
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.35),
+    0 0 12px rgba(0,0,0,.12),
+    0 4px 18px rgba(0,0,0,.14);
+}
+
+/* Khi nền tối (được JS gán .on-dark) -> chữ trắng + halo tối hơn */
+.hero-content.on-dark{
+  color:#fff;
+}
+.hero-content.on-dark h1,
+.hero-content.on-dark .eyebrow,
+.hero-content.on-dark .subtitle{
+  /* viền tối quanh chữ trắng để không chìm */
+  text-shadow:
+    0 0 1px rgba(0,0,0,.55),
+    0 2px 8px rgba(0,0,0,.45),
+    0 8px 22px rgba(0,0,0,.35);
+  -webkit-text-stroke: .4px rgba(0,0,0,.25); /* iOS/Safari hỗ trợ stroke mảnh */
+}
+
+/* Mobile: tăng độ dày & halo một chút để dễ đọc hơn */
+@media (max-width:640px){
+  .hero-content h1{ font-weight:700; letter-spacing:.2px; }
+  .hero-content .subtitle{ font-weight:500; }
+  .hero-content.on-dark h1,
+  .hero-content.on-dark .eyebrow,
+  .hero-content.on-dark .subtitle{
+    text-shadow:
+      0 0 1px rgba(0,0,0,.65),
+      0 3px 10px rgba(0,0,0,.55),
+      0 10px 26px rgba(0,0,0,.45);
+    -webkit-text-stroke: .6px rgba(0,0,0,.28);
+  }
+}
+/* === Emphasize hero heading only (no image overlay) === */
+
+/* cấu trúc giả định:
+  .hero-content
+    .eyebrow  → "ĐÁM CƯỚI"
+    h1.hero-title → "Tiến Đạt & Minh Hằng"
+    .subtitle → "Hẹn gặp bạn..."
+*/
+
+.hero-content{ color:#111; }
+
+/* Eyebrow */
+.hero-content .eyebrow{
+  font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.35),
+    0 0 10px rgba(0,0,0,.10),
+    0 4px 16px rgba(0,0,0,.12);
+}
+
+/* Title chính */
+.hero-content .hero-title{
+  font-weight:700; line-height:1.08;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.35),
+    0 0 14px rgba(0,0,0,.12),
+    0 6px 22px rgba(0,0,0,.18);
+}
+
+/* Subtitle */
+.hero-content .subtitle{
+  font-weight:500; opacity:.95;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.35),
+    0 0 10px rgba(0,0,0,.10),
+    0 4px 18px rgba(0,0,0,.14);
+}
+
+/* Khi nền tối (được JS gán .on-dark) → chữ trắng + viền tối mảnh */
+.hero-content.on-dark{ color:#fff; }
+.hero-content.on-dark .eyebrow,
+.hero-content.on-dark .hero-title,
+.hero-content.on-dark .subtitle{
+  /* halo tối để chữ trắng không chìm */
+  text-shadow:
+    0 0 1px rgba(0,0,0,.55),
+    0 3px 12px rgba(0,0,0,.50),
+    0 10px 28px rgba(0,0,0,.40);
+  -webkit-text-stroke: .4px rgba(0,0,0,.25); /* Safari/iOS hỗ trợ stroke mảnh */
+}
+
+/* Mobile: tăng độ rõ chữ (không đụng ảnh) */
+@media (max-width:640px){
+  .hero-content .hero-title{ font-weight:800; letter-spacing:.2px; }
+  .hero-content .subtitle{ font-weight:600; }
+  .hero-content.on-dark .eyebrow,
+  .hero-content.on-dark .hero-title,
+  .hero-content.on-dark .subtitle{
+    text-shadow:
+      0 0 1px rgba(0,0,0,.65),
+      0 4px 14px rgba(0,0,0,.55),
+      0 14px 36px rgba(0,0,0,.45);
+    -webkit-text-stroke: .6px rgba(0,0,0,.28);
+  }
+}

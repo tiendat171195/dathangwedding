@@ -191,3 +191,36 @@ document.addEventListener('DOMContentLoaded', ()=>{
   hookForm();
   render();
 });
+/* === Hero Contrast (no overlay, mobile-aware) === */
+(function(){
+  const content = document.querySelector('.hero-content');
+  const slides  = document.querySelectorAll('.slide'); // <img class="slide">
+  if (!content || !slides.length) return;
+
+  const c = document.createElement('canvas');
+  const ctx = c.getContext('2d');
+  const lum = (r,g,b)=>0.2126*r + 0.7152*g + 0.0722*b;
+
+  function analyze(img){
+    c.width = 160; c.height = 90;
+    try { ctx.drawImage(img, 0, 0, c.width, c.height); }
+    catch { content.classList.remove('on-dark'); return; }
+    const d = ctx.getImageData(0, Math.floor(c.height*0.55), c.width, Math.floor(c.height*0.45)).data;
+    let sum=0, n=0; for (let i=0;i<d.length;i+=4){ sum += lum(d[i], d[i+1], d[i+2]); n++; }
+    const avg = sum/n;
+    const MOBILE = matchMedia('(max-width:640px)').matches;
+    const threshold = MOBILE ? 140 : 120;  // nhạy hơn trên mobile
+    content.classList.toggle('on-dark', avg < threshold);
+  }
+
+  function analyzeActive(){
+    const active = document.querySelector('.slide.active') || slides[0];
+    if (!active) return;
+    active.complete ? analyze(active) : active.onload = ()=>analyze(active);
+  }
+
+  analyzeActive();
+  const obs = new MutationObserver(analyzeActive);
+  slides.forEach(sl => obs.observe(sl, {attributes:true, attributeFilter:['class']}));
+  addEventListener('resize', analyzeActive, {passive:true});
+})();
