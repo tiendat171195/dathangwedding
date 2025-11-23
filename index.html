@@ -34,6 +34,7 @@
         <a href="#events">Sự kiện</a>
         <a href="#gallery">Bộ ảnh</a>
         <a href="#wishes">Khách mời</a>
+        <a href="#" onclick="openGiftPopup(); return false;">Mừng cưới</a>
       </nav>
     </div>
   </header>
@@ -215,6 +216,31 @@
       -`♡´- Hẹn gặp bạn ở tiệc cưới của Tiến Đạt & Minh Hằng -`♡´-
     </div>
   </footer>
+
+  <!-- Gift Popup Modal -->
+  <div id="gift-modal" class="modal">
+    <div class="modal-overlay" onclick="closeGiftPopup()"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeGiftPopup()" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h2>Mừng cưới</h2>
+        <p class="muted">Cảm ơn bạn đã gửi lời chúc đến Đạt & Hằng 💝</p>
+        <div class="qr-code-container">
+          <img src="assets/qr-code.jpg" alt="QR Code chuyển khoản" class="qr-code" />
+          <div class="bank-info">
+            <p><strong>Ngân hàng:</strong> Maritime Bank (MSB)</p>
+            <p><strong>Số tài khoản:</strong> 04301010769319</p>
+            <p><strong>Chủ tài khoản:</strong> DOAN TIEN DAT</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="env.js"></script>

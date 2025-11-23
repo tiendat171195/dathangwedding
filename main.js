@@ -224,3 +224,30 @@ document.addEventListener('DOMContentLoaded', ()=>{
   slides.forEach(sl => obs.observe(sl, {attributes:true, attributeFilter:['class']}));
   addEventListener('resize', analyzeActive, {passive:true});
 })();
+
+// === Gift Popup Functions ===
+function openGiftPopup() {
+  const modal = document.getElementById('gift-modal');
+  if (modal) {
+    modal.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeGiftPopup() {
+  const modal = document.getElementById('gift-modal');
+  if (modal) {
+    modal.classList.remove('modal-open');
+    document.body.style.overflow = '';
+  }
+}
+
+// Close on ESC key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeGiftPopup();
+  }
+});
+
+window.openGiftPopup = openGiftPopup;
+window.closeGiftPopup = closeGiftPopup;
