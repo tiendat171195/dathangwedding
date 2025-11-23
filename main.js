@@ -11,6 +11,17 @@ HERO.push("assets/hero/hero-5.jpg");
 HERO.push("assets/hero/hero-6.jpg");
 HERO.push("assets/hero/hero-7.jpg");
 HERO.push("assets/hero/hero-8.jpg");
+// Add gallery images as additional hero backgrounds
+HERO.push("assets/gallery/g-023.jpg");
+HERO.push("assets/gallery/g-025.jpg");
+HERO.push("assets/gallery/g-029.jpg");
+HERO.push("assets/gallery/g-032.jpg");
+HERO.push("assets/gallery/g-037.jpg");
+HERO.push("assets/gallery/g-038.jpg");
+HERO.push("assets/gallery/g-039.jpg");
+HERO.push("assets/gallery/g-040.jpg");
+HERO.push("assets/gallery/g-041.jpg");
+HERO.push("assets/gallery/g-042.jpg");
 const slidesWrap = document.querySelector('.hero-slides');
 slidesWrap.innerHTML = HERO.map((src,i)=>`<img src="${src}" class="slide ${i===0?'active':''}" alt="Hero ${i+1}" data-focal="50% 50%">`).join('');
 
@@ -251,3 +262,254 @@ document.addEventListener('keydown', (e) => {
 
 window.openGiftPopup = openGiftPopup;
 window.closeGiftPopup = closeGiftPopup;
+
+// === Lucky Draw Functions ===
+let isDrawing = false;
+
+function openLuckyDraw() {
+  const modal = document.getElementById('lucky-draw-modal');
+  if (modal) {
+    modal.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+    resetDraw();
+  }
+}
+
+function closeLuckyDraw() {
+  const modal = document.getElementById('lucky-draw-modal');
+  if (modal) {
+    modal.classList.remove('modal-open');
+    document.body.style.overflow = '';
+  }
+}
+
+function resetDraw() {
+  // Reset slots to 0
+  document.getElementById('slot1').textContent = '0';
+  document.getElementById('slot2').textContent = '0';
+  document.getElementById('slot3').textContent = '0';
+
+  // Clear message and winner display
+  document.getElementById('lucky-message').textContent = '';
+  const winnerDisplay = document.getElementById('winner-display');
+  winnerDisplay.classList.remove('show');
+  winnerDisplay.innerHTML = '';
+
+  // Reset button
+  const btn = document.getElementById('draw-button');
+  btn.disabled = false;
+  btn.classList.remove('drawing');
+  btn.querySelector('.btn-label').textContent = 'Quay số ngay! 🎯';
+}
+
+const funnyMessages = [
+  "Trống trống trống... 🥁",
+  "Ai sẽ trúng nhỉ? 🤔",
+  "Thần may mắn đang làm việc... ✨",
+  "Chú rể và cô dâu đang cầu nguyện... 🙏",
+  "Tình yêu đang xoay vòng... 💘",
+  "Nhẫn cưới đang chọn người... 💍",
+  "Hoa cưới sắp bay đến ai đó... 💐",
+  "Trái tim đang đập thình thịch... 💓"
+];
+
+const winnerMessages = [
+  { text: "Chúc mừng!", emoji: "🎉" },
+  { text: "May mắn quá!", emoji: "🍀" },
+  { text: "Trúng to rồi!", emoji: "🎊" },
+  { text: "Số phúc của bạn đây!", emoji: "⭐" },
+  { text: "Cô dâu chú rể gửi lời chúc!", emoji: "💝" },
+  { text: "Người được chọn!", emoji: "👑" },
+  { text: "Tình yêu đã chọn bạn!", emoji: "💕" },
+  { text: "Nhẫn cưới thuộc về bạn!", emoji: "💍" }
+];
+
+function startDraw() {
+  if (isDrawing) return;
+
+  isDrawing = true;
+  const btn = document.getElementById('draw-button');
+  btn.disabled = true;
+  btn.classList.add('drawing');
+  btn.querySelector('.btn-label').textContent = 'Đang quay... 🎰';
+
+  // Clear previous results
+  const winnerDisplay = document.getElementById('winner-display');
+  winnerDisplay.classList.remove('show');
+  winnerDisplay.innerHTML = '';
+
+  // Show funny message
+  const message = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+  document.getElementById('lucky-message').textContent = message;
+
+  // Get slots
+  const slot1 = document.getElementById('slot1');
+  const slot2 = document.getElementById('slot2');
+  const slot3 = document.getElementById('slot3');
+
+  // Add spinning animation
+  slot1.classList.add('spinning');
+  slot2.classList.add('spinning');
+  slot3.classList.add('spinning');
+
+  // Animate numbers spinning
+  let spinCount = 0;
+  const maxSpins = 30;
+  const spinInterval = setInterval(() => {
+    slot1.textContent = Math.floor(Math.random() * 10);
+    slot2.textContent = Math.floor(Math.random() * 10);
+    slot3.textContent = Math.floor(Math.random() * 10);
+    spinCount++;
+
+    if (spinCount >= maxSpins) {
+      clearInterval(spinInterval);
+      stopDrawAndShowWinner();
+    }
+  }, 100);
+}
+
+function stopDrawAndShowWinner() {
+  // Generate final number between 1-250
+  const winningNumber = Math.floor(Math.random() * 250) + 1;
+  const digits = String(winningNumber).padStart(3, '0').split('');
+
+  const slot1 = document.getElementById('slot1');
+  const slot2 = document.getElementById('slot2');
+  const slot3 = document.getElementById('slot3');
+
+  // Stop slot 1
+  setTimeout(() => {
+    slot1.classList.remove('spinning');
+    slot1.classList.add('winning');
+    slot1.textContent = digits[0];
+    setTimeout(() => slot1.classList.remove('winning'), 1800);
+  }, 300);
+
+  // Stop slot 2
+  setTimeout(() => {
+    slot2.classList.remove('spinning');
+    slot2.classList.add('winning');
+    slot2.textContent = digits[1];
+    setTimeout(() => slot2.classList.remove('winning'), 1800);
+  }, 800);
+
+  // Stop slot 3
+  setTimeout(() => {
+    slot3.classList.remove('spinning');
+    slot3.classList.add('winning');
+    slot3.textContent = digits[2];
+    setTimeout(() => slot3.classList.remove('winning'), 1800);
+  }, 1300);
+
+  // Show winner after all slots stop
+  setTimeout(() => {
+    showWinner(winningNumber);
+  }, 1800);
+}
+
+function showWinner(number) {
+  // Clear message
+  document.getElementById('lucky-message').textContent = '';
+
+  // Get random winner message
+  const winnerMsg = winnerMessages[Math.floor(Math.random() * winnerMessages.length)];
+
+  // Show winner display
+  const winnerDisplay = document.getElementById('winner-display');
+  winnerDisplay.innerHTML = `
+    <div class="winner-emoji">${winnerMsg.emoji}</div>
+    <div class="winner-text">${winnerMsg.text}</div>
+    <div class="winner-number">${number}</div>
+  `;
+
+  setTimeout(() => {
+    winnerDisplay.classList.add('show');
+  }, 100);
+
+  // Trigger confetti
+  luckyConfetti();
+
+  // Reset button
+  const btn = document.getElementById('draw-button');
+  btn.classList.remove('drawing');
+  btn.disabled = false;
+  btn.querySelector('.btn-label').textContent = 'Quay lại! 🔄';
+
+  isDrawing = false;
+}
+
+function luckyConfetti() {
+  const canvas = document.getElementById('lucky-confetti');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d', { alpha: true });
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const particleCount = 60; // Reduced from 150
+  const emojis = ['💕', '💖', '💍', '🎊', '⭐', '✨'];
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -20 - Math.random() * 200,
+      vx: (Math.random() - 0.5) * 2,
+      vy: 3 + Math.random() * 2,
+      rotation: Math.random() * Math.PI * 2,
+      rotationSpeed: (Math.random() - 0.5) * 0.2,
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      size: 24 + Math.random() * 16,
+      alpha: 1
+    });
+  }
+
+  let frameCount = 0;
+  const maxFrames = 120; // Reduced from 200
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    frameCount++;
+
+    particles.forEach((p) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.08; // gravity
+      p.rotation += p.rotationSpeed;
+
+      // Fade out towards the end
+      if (frameCount > maxFrames - 30) {
+        p.alpha -= 0.033;
+      }
+
+      if (p.alpha > 0 && p.y < canvas.height + 50) {
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.font = `${p.size}px Arial`;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillText(p.emoji, 0, 0);
+        ctx.restore();
+      }
+    });
+
+    if (frameCount < maxFrames) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  animate();
+}
+
+// Close on ESC key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeLuckyDraw();
+  }
+});
+
+window.openLuckyDraw = openLuckyDraw;
+window.closeLuckyDraw = closeLuckyDraw;
+window.startDraw = startDraw;

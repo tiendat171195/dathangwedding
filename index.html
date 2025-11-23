@@ -35,6 +35,7 @@
         <a href="#gallery">Bộ ảnh</a>
         <a href="#wishes">Khách mời</a>
         <a href="#" onclick="openGiftPopup(); return false;">Mừng cưới</a>
+        <a href="#" onclick="openLuckyDraw(); return false;">🎯 Quay số</a>
       </nav>
     </div>
   </header>
@@ -240,6 +241,53 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Lucky Draw Modal -->
+  <div id="lucky-draw-modal" class="modal">
+    <div class="modal-overlay" onclick="closeLuckyDraw()"></div>
+    <div class="modal-content lucky-draw-content">
+      <button class="modal-close" onclick="closeLuckyDraw()" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h2>🎊 Rút thăm may mắn 🎊</h2>
+        <p class="muted lucky-subtitle">Ai sẽ là người may mắn hôm nay?</p>
+
+        <div class="lucky-machine">
+          <div class="lucky-hearts">
+            <span class="heart">💕</span>
+            <span class="heart">💖</span>
+            <span class="heart">💝</span>
+            <span class="heart">💗</span>
+            <span class="heart">💞</span>
+            <span class="heart">💓</span>
+          </div>
+
+          <div class="lucky-display">
+            <div class="lucky-ring left-ring">💍</div>
+            <div class="number-display">
+              <div class="number-slot" id="slot1">0</div>
+              <div class="number-slot" id="slot2">0</div>
+              <div class="number-slot" id="slot3">0</div>
+            </div>
+            <div class="lucky-ring right-ring">💍</div>
+          </div>
+
+          <div id="lucky-message" class="lucky-message"></div>
+
+          <button id="draw-button" class="btn btn-lucky" onclick="startDraw()">
+            <span class="btn-label">Quay số ngay! 🎯</span>
+          </button>
+
+          <div id="winner-display" class="winner-display"></div>
+        </div>
+      </div>
+    </div>
+    <canvas id="lucky-confetti" class="lucky-confetti"></canvas>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

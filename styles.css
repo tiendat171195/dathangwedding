@@ -446,3 +446,456 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
     height: 240px;
   }
 }
+
+/* === Lucky Draw Styles === */
+.lucky-draw-content {
+  max-width: 100%;
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  background: linear-gradient(135deg, #fff5f7 0%, #fff 100%);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left side photo */
+.lucky-draw-content::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background: url('assets/gallery/g-041.jpg') center center / cover no-repeat;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+/* Right side photo */
+.lucky-draw-content::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background: url('assets/gallery/g-044.jpg') center center / cover no-repeat;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+.lucky-draw-content .modal-body {
+  width: 100%;
+  max-width: 700px;
+  padding: 40px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.lucky-subtitle {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.lucky-machine {
+  position: relative;
+  padding: 20px;
+}
+
+/* Floating hearts animation - optimized */
+.lucky-hearts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lucky-hearts .heart {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0;
+  will-change: transform;
+  animation: floatHeart 4s ease-in-out infinite;
+}
+
+.lucky-hearts .heart:nth-child(1) {
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.lucky-hearts .heart:nth-child(2) {
+  left: 35%;
+  animation-delay: 1s;
+}
+
+.lucky-hearts .heart:nth-child(3) {
+  left: 55%;
+  animation-delay: 2s;
+}
+
+.lucky-hearts .heart:nth-child(4) {
+  left: 75%;
+  animation-delay: 3s;
+}
+
+.lucky-hearts .heart:nth-child(5),
+.lucky-hearts .heart:nth-child(6) {
+  display: none; /* Remove extra hearts to improve performance */
+}
+
+@keyframes floatHeart {
+  0% {
+    bottom: -30px;
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  15% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    bottom: 100%;
+    opacity: 0;
+    transform: translateY(-20px) rotate(180deg);
+  }
+}
+
+/* Lucky display - slot machine style */
+.lucky-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  padding: 40px 24px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 4px solid #f59e0b;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3),
+              inset 0 2px 8px rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+.lucky-display::before,
+.lucky-display::after {
+  content: '✨';
+  position: absolute;
+  font-size: 36px;
+  will-change: transform;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.lucky-display::before {
+  top: -12px;
+  left: -12px;
+}
+
+.lucky-display::after {
+  bottom: -12px;
+  right: -12px;
+  animation-delay: 1s;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.lucky-ring {
+  font-size: 56px;
+  will-change: transform;
+  animation: ring-bounce 3s ease-in-out infinite;
+}
+
+.left-ring {
+  animation-delay: 0s;
+}
+
+.right-ring {
+  animation-delay: 1.5s;
+}
+
+@keyframes ring-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.number-display {
+  display: flex;
+  gap: 8px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.number-slot {
+  width: 90px;
+  height: 110px;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 100%);
+  border: 3px solid #e11d48;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  font-weight: 800;
+  color: #e11d48;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.number-slot.spinning {
+  filter: blur(3px);
+  animation: slot-spin 0.15s linear infinite;
+}
+
+@keyframes slot-spin {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.number-slot.winning {
+  animation: winning-pulse 0.5s ease-in-out 3;
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+}
+
+@keyframes winning-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.5);
+  }
+}
+
+/* Lucky message */
+.lucky-message {
+  min-height: 60px;
+  margin: 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e11d48;
+  text-align: center;
+  animation: message-fade-in 0.5s ease;
+}
+
+@keyframes message-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lucky button */
+.btn-lucky {
+  width: 100%;
+  height: 56px;
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(225, 29, 72, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-lucky::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-lucky:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(225, 29, 72, 0.4);
+}
+
+.btn-lucky:hover::before {
+  left: 100%;
+}
+
+.btn-lucky:active {
+  transform: translateY(0);
+}
+
+.btn-lucky:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-lucky.drawing {
+  animation: button-shake 0.5s ease infinite;
+}
+
+@keyframes button-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(5px) rotate(2deg);
+  }
+}
+
+/* Winner display */
+.winner-display {
+  margin-top: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 3px solid #f59e0b;
+  border-radius: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.winner-display.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.winner-number {
+  font-size: 72px;
+  font-weight: 900;
+  color: #e11d48;
+  margin: 16px 0;
+  text-shadow: 3px 3px 0 #fde68a, 6px 6px 0 #fcd34d;
+  animation: winner-bounce 1s ease-in-out infinite;
+}
+
+@keyframes winner-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.winner-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 12px;
+}
+
+.winner-emoji {
+  font-size: 48px;
+  margin: 12px 0;
+  animation: emoji-spin 2s linear infinite;
+}
+
+@keyframes emoji-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Lucky confetti canvas */
+.lucky-confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 150;
+}
+
+@media (max-width: 640px) {
+  .lucky-draw-content {
+    height: 100vh;
+  }
+
+  /* Hide side images on mobile for better content focus */
+  .lucky-draw-content::before,
+  .lucky-draw-content::after {
+    width: 20%;
+    opacity: 0.5;
+  }
+
+  .lucky-draw-content .modal-body {
+    padding: 24px 16px;
+    margin: 0 12px;
+  }
+
+  .lucky-display {
+    gap: 12px;
+    padding: 24px 16px;
+  }
+
+  .number-slot {
+    width: 70px;
+    height: 90px;
+    font-size: 44px;
+  }
+
+  .lucky-ring {
+    font-size: 40px;
+  }
+
+  .winner-number {
+    font-size: 48px;
+  }
+
+  .winner-text {
+    font-size: 18px;
+  }
+
+  .lucky-subtitle {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+}
