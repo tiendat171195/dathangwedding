@@ -863,4 +863,48 @@ body {
     width: 40px;
     margin-bottom: 24px;
   }
+
+  /* Mobile header improvements */
+  .site-header {
+    padding: 0;
+  }
+
+  .header-inner {
+    height: auto;
+    min-height: 56px;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .nav a {
+    margin-left: 0;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    background: rgba(225, 29, 72, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  .nav a:hover {
+    background: rgba(225, 29, 72, 0.1);
+  }
+
+  .nav a::after {
+    display: none;
+  }
 }
