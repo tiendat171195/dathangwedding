@@ -542,3 +542,325 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
     margin-bottom: 24px;
   }
 }
+
+/* === FANCY ENHANCEMENTS === */
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced color scheme */
+:root {
+  --primary: #e11d48;
+  --primary-light: #fce7f3;
+  --accent: #f59e0b;
+  --gradient-1: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  --gradient-2: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  --gradient-3: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+}
+
+/* Fade-in animation for sections */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  animation: fadeInUp 0.8s ease-out;
+  animation-fill-mode: both;
+}
+
+.section:nth-child(1) { animation-delay: 0.1s; }
+.section:nth-child(2) { animation-delay: 0.2s; }
+.section:nth-child(3) { animation-delay: 0.3s; }
+.section:nth-child(4) { animation-delay: 0.4s; }
+
+/* Alternating section backgrounds */
+.section:nth-child(even) {
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+}
+
+/* Enhanced section titles with decorative elements */
+.section h2 {
+  font-family: 'Noto Serif Display', Georgia, serif;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section h2::after {
+  content: '♥';
+  display: block;
+  text-align: center;
+  font-size: 16px;
+  color: var(--primary);
+  margin-top: 8px;
+  opacity: 0.6;
+}
+
+/* Decorative divider before sections */
+.section::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-1);
+  margin: 0 auto 40px;
+  border-radius: 2px;
+}
+
+/* Enhanced cards */
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Enhanced form */
+.form {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+}
+
+.form label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+.form input,
+.form textarea,
+.form select {
+  transition: all 0.3s ease;
+  border: 2px solid var(--border);
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+  outline: none;
+}
+
+/* Enhanced buttons */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, #be123c 100%);
+  box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(225, 29, 72, 0.4);
+}
+
+/* Enhanced video containers */
+.video-container {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s ease;
+}
+
+.video-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating gift button enhancement */
+.floating-gift-btn {
+  box-shadow: 0 8px 32px rgba(225, 29, 72, 0.4);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.floating-gift-btn:hover {
+  animation: none;
+}
+
+/* Enhanced wishes display */
+.wish {
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  padding-left: 12px;
+}
+
+.wish:hover {
+  border-left-color: var(--primary);
+  background: rgba(225, 29, 72, 0.02);
+  transform: translateX(4px);
+}
+
+.wish .name {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 16px;
+}
+
+/* Enhanced header */
+.site-header {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.brand {
+  font-family: 'Noto Serif Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.nav a {
+  position: relative;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav a:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+/* Gallery enhancements */
+.masonry img {
+  transition: all 0.4s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.masonry img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+/* Subtle background pattern */
+body {
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(252, 231, 243, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(254, 243, 199, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(224, 231, 255, 0.3) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Hero text enhancement */
+.hero h1 {
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(255, 255, 255, 0.8);
+  letter-spacing: 1px;
+}
+
+/* Section subtitle enhancement */
+.section .muted {
+  font-style: italic;
+  font-size: 16px;
+}
+
+/* Add sparkle effect to important elements */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Romantic heart floating effect */
+@keyframes heartFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Footer enhancement */
+.site-footer {
+  background: linear-gradient(180deg, transparent 0%, #fafafa 100%);
+  padding: 48px 0;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .section h2 {
+    font-size: 28px;
+  }
+
+  .section::before {
+    width: 40px;
+    margin-bottom: 24px;
+  }
+}
