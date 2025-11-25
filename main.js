@@ -161,21 +161,12 @@ function confettiBurst(){
 }
 
 async function renderWishes(){
-  const filter = document.getElementById('filter-status').value;
   let list = await loadWishes();
-  const counts = {"Tham dự":0,"Không tham dự":0,"Chưa rõ":0};
-  list.forEach(x => counts[x.status] = (counts[x.status]||0) + 1);
-  document.getElementById('stats').textContent =
-    `Tổng: ${list.length} • Tham dự: ${counts["Tham dự"]||0} • Không tham dự: ${counts["Không tham dự"]||0} • Chưa rõ: ${counts["Chưa rõ"]||0}`;
-  if (filter !== 'Tất cả'){ list = list.filter(x => x.status === filter); }
 
   const wrap = document.getElementById('wish-list');
   wrap.innerHTML = list.length ? list.map(w => `
     <div class="wish">
-      <div class="row">
-        <div class="name">${w.name}</div>
-        <span class="badge ${w.status === 'Tham dự' ? 'yes' : (w.status === 'Không tham dự' ? 'no' : 'maybe')}">${w.status}</span>
-      </div>
+      <div class="name">${w.name}</div>
       ${w.message ? `<div class="msg">${w.message.replace(/</g,'&lt;') }</div>` : ''}
       <div class="ts">${new Date(w.ts).toLocaleString('vi-VN')}</div>
     </div>
@@ -185,14 +176,12 @@ async function renderWishes(){
 document.getElementById('wish-form').addEventListener('submit', async (e)=>{
   e.preventDefault();
   const name = document.getElementById('wish-name').value.trim() || 'Ẩn danh';
-  const status = document.getElementById('wish-status').value;
   const message = document.getElementById('wish-message').value.trim();
-  await insertWish({name, status, message});
+  await insertWish({name, message});
   e.target.reset();
   confettiBurst();
   renderWishes();
 });
-document.getElementById('filter-status').addEventListener('change', renderWishes);
 
 // Initial render
 renderWishes();
