@@ -4,7 +4,7 @@
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"Be Vietnam Pro",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
 .container{max-width:1080px;margin:0 auto;padding:0 16px}
 .section{padding:64px 0}
-.section h2{font-size:28px;margin:0 0 8px}
+.section h2{font-size:28px;margin:0 0 8px;text-align:center}
 .muted{color:var(--muted)}
 .center{text-align:center}
 .tiny{font-size:12px}
@@ -65,7 +65,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .map-link a{color:inherit}
 
 /* Masonry gallery */
-.section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:16px}
+.section-head{display:flex;align-items:end;justify-content:center;margin-bottom:16px}
 .masonry{column-count:1; column-gap:16px}
 @media(min-width:720px){ .masonry{column-count:2} }
 @media(min-width:1024px){ .masonry{column-count:3} }
@@ -496,5 +496,47 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
   .floating-gift-btn svg {
     width: 20px;
     height: 20px;
+  }
+}
+
+/* === Video Section === */
+#video {
+  background: var(--bg);
+}
+
+#video h2 {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+}
+
+@media (max-width: 640px) {
+  .video-container {
+    border-radius: 12px;
+  }
+
+  #video h2 {
+    margin-bottom: 24px;
   }
 }
