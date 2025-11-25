@@ -34,7 +34,6 @@
         <a href="#events">Sự kiện</a>
         <a href="#gallery">Bộ ảnh</a>
         <a href="#wishes">Khách mời</a>
-        <a href="#" onclick="openGiftPopup(); return false;">Mừng cưới</a>
       </nav>
     </div>
   </header>
@@ -241,6 +240,18 @@
       </div>
     </div>
   </div>
+
+  <!-- Floating Gift Button -->
+  <button class="floating-gift-btn" onclick="openGiftPopup()" aria-label="Mừng cưới">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 12 20 22 4 22 4 12"></polyline>
+      <rect x="2" y="7" width="20" height="5"></rect>
+      <line x1="12" y1="22" x2="12" y2="7"></line>
+      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+    </svg>
+    <span class="gift-label">Tặng quà</span>
+  </button>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="env.js"></script>
