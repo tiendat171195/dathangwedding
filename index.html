@@ -131,6 +131,31 @@
     </div>
   </footer>
 
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox">
+    <div class="lightbox-overlay" onclick="closeLightbox()"></div>
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <button class="lightbox-prev" onclick="lightboxPrev()" aria-label="Previous">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="lightbox-next" onclick="lightboxNext()" aria-label="Next">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="Gallery photo">
+      <div class="lightbox-counter"><span id="lightbox-current">1</span> / <span id="lightbox-total">31</span></div>
+    </div>
+  </div>
+
   <!-- Gift Popup Modal -->
   <div id="gift-modal" class="modal">
     <div class="modal-overlay" onclick="closeGiftPopup()"></div>

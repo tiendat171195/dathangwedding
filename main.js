@@ -12,16 +12,16 @@ HERO.push("assets/hero/hero-6.jpg");
 HERO.push("assets/hero/hero-7.jpg");
 HERO.push("assets/hero/hero-8.jpg");
 // Add gallery images as additional hero backgrounds
-HERO.push("assets/gallery/g-023.jpg");
+HERO.push("assets/gallery/g-001.jpg");
+HERO.push("assets/gallery/g-005.jpg");
+HERO.push("assets/gallery/g-010.jpg");
+HERO.push("assets/gallery/g-012.jpg");
+HERO.push("assets/gallery/g-015.jpg");
+HERO.push("assets/gallery/g-018.jpg");
+HERO.push("assets/gallery/g-020.jpg");
 HERO.push("assets/gallery/g-025.jpg");
-HERO.push("assets/gallery/g-029.jpg");
-HERO.push("assets/gallery/g-032.jpg");
-HERO.push("assets/gallery/g-037.jpg");
-HERO.push("assets/gallery/g-038.jpg");
-HERO.push("assets/gallery/g-039.jpg");
-HERO.push("assets/gallery/g-040.jpg");
-HERO.push("assets/gallery/g-041.jpg");
-HERO.push("assets/gallery/g-042.jpg");
+HERO.push("assets/gallery/g-028.jpg");
+HERO.push("assets/gallery/g-030.jpg");
 const slidesWrap = document.querySelector('.hero-slides');
 slidesWrap.innerHTML = HERO.map((src,i)=>`<img src="${src}" class="slide ${i===0?'active':''}" alt="Hero ${i+1}" data-focal="50% 50%">`).join('');
 
@@ -44,6 +44,28 @@ if (slides.length){
 
 // GALLERY
 const GALLERY = [];
+GALLERY.push("assets/gallery/g-001.jpg");
+GALLERY.push("assets/gallery/g-002.jpg");
+GALLERY.push("assets/gallery/g-003.jpg");
+GALLERY.push("assets/gallery/g-004.jpg");
+GALLERY.push("assets/gallery/g-005.jpg");
+GALLERY.push("assets/gallery/g-006.jpg");
+GALLERY.push("assets/gallery/g-007.jpg");
+GALLERY.push("assets/gallery/g-008.jpg");
+GALLERY.push("assets/gallery/g-009.jpg");
+GALLERY.push("assets/gallery/g-010.jpg");
+GALLERY.push("assets/gallery/g-011.jpg");
+GALLERY.push("assets/gallery/g-012.jpg");
+GALLERY.push("assets/gallery/g-013.jpg");
+GALLERY.push("assets/gallery/g-014.jpg");
+GALLERY.push("assets/gallery/g-015.jpg");
+GALLERY.push("assets/gallery/g-016.jpg");
+GALLERY.push("assets/gallery/g-017.jpg");
+GALLERY.push("assets/gallery/g-018.jpg");
+GALLERY.push("assets/gallery/g-019.jpg");
+GALLERY.push("assets/gallery/g-020.jpg");
+GALLERY.push("assets/gallery/g-021.jpg");
+GALLERY.push("assets/gallery/g-022.jpg");
 GALLERY.push("assets/gallery/g-023.jpg");
 GALLERY.push("assets/gallery/g-024.jpg");
 GALLERY.push("assets/gallery/g-025.jpg");
@@ -53,21 +75,8 @@ GALLERY.push("assets/gallery/g-028.jpg");
 GALLERY.push("assets/gallery/g-029.jpg");
 GALLERY.push("assets/gallery/g-030.jpg");
 GALLERY.push("assets/gallery/g-031.jpg");
-GALLERY.push("assets/gallery/g-032.jpg");
-GALLERY.push("assets/gallery/g-033.jpg");
-GALLERY.push("assets/gallery/g-034.jpg");
-GALLERY.push("assets/gallery/g-035.jpg");
-GALLERY.push("assets/gallery/g-036.jpg");
-GALLERY.push("assets/gallery/g-037.jpg");
-GALLERY.push("assets/gallery/g-038.jpg");
-GALLERY.push("assets/gallery/g-039.jpg");
-GALLERY.push("assets/gallery/g-040.jpg");
-GALLERY.push("assets/gallery/g-041.jpg");
-GALLERY.push("assets/gallery/g-042.jpg");
-GALLERY.push("assets/gallery/g-043.jpg");
-GALLERY.push("assets/gallery/g-044.jpg");
 const mason = document.getElementById('masonry');
-mason.innerHTML = GALLERY.map((src)=>`<div class="masonry-item"><img src="${src}" loading="lazy"></div>`).join('');
+mason.innerHTML = GALLERY.map((src, idx)=>`<div class="masonry-item" data-index="${idx}"><img src="${src}" loading="lazy"></div>`).join('');
 
 // Add-to-calendar
 function addCal(city, dateISO, time, titleSuffix) {
@@ -251,3 +260,67 @@ document.addEventListener('keydown', (e) => {
 
 window.openGiftPopup = openGiftPopup;
 window.closeGiftPopup = closeGiftPopup;
+
+// === Lightbox Functions ===
+let currentLightboxIndex = 0;
+
+function openLightbox(index) {
+  currentLightboxIndex = index;
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const current = document.getElementById('lightbox-current');
+  const total = document.getElementById('lightbox-total');
+
+  img.src = GALLERY[currentLightboxIndex];
+  current.textContent = currentLightboxIndex + 1;
+  total.textContent = GALLERY.length;
+
+  lightbox.classList.add('lightbox-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('lightbox-open');
+  document.body.style.overflow = '';
+}
+
+function lightboxPrev() {
+  currentLightboxIndex = (currentLightboxIndex - 1 + GALLERY.length) % GALLERY.length;
+  openLightbox(currentLightboxIndex);
+}
+
+function lightboxNext() {
+  currentLightboxIndex = (currentLightboxIndex + 1) % GALLERY.length;
+  openLightbox(currentLightboxIndex);
+}
+
+// Add click handlers to gallery items
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.masonry-item');
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const index = parseInt(item.getAttribute('data-index'));
+      openLightbox(index);
+    });
+  });
+});
+
+// Keyboard navigation for lightbox
+document.addEventListener('keydown', (e) => {
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox.classList.contains('lightbox-open')) {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+      lightboxPrev();
+    } else if (e.key === 'ArrowRight') {
+      lightboxNext();
+    }
+  }
+});
+
+window.openLightbox = openLightbox;
+window.closeLightbox = closeLightbox;
+window.lightboxPrev = lightboxPrev;
+window.lightboxNext = lightboxNext;
